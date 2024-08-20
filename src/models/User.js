@@ -1,11 +1,11 @@
-import { Schema, model } from 'mongoose'
+import { Schema,Types, model } from 'mongoose';
 
 const userSchema = new Schema({
-    firstName: {
+  firstName: {
     type: String,
     required: true
   },
-    lastName: {
+  lastName: {
     type: String,
     required: true
   },
@@ -20,9 +20,22 @@ const userSchema = new Schema({
   type: {
     type: String,
     required: true
+  },
+  creationDate: {
+    type: Date,
+    default: Date.now
+  },
+  lastConnection: {
+    type: Date,
+    default: null
+  },
+  level_id: {
+    type: Schema.Types.ObjectId,
+    ref: 'Level',
+    required: true
   }
-})
+});
 
-const User = model('Usuario', userSchema)
+const User = model('User', userSchema);
 
-export default User
+export default User;
