@@ -2,7 +2,7 @@ import { SECRET_KEY } from '../config/config.js'
 import jwt from 'jsonwebtoken'
 import User from '../models/User.js'
 
-export const verificarToken = async (req, res, next) => {
+export const validateToken = async (req, res, next) => {
   try {
     const { authorization } = req.headers
     const decoded = jwt.verify(authorization, SECRET_KEY)

@@ -1,3 +1,5 @@
+import { Types } from 'mongoose'
+
 export const validateCORS = (req, res, next) => {
     const validOrigins = ['http://localhost:5173']
     const { origin } = req.headers
@@ -17,4 +19,13 @@ export const validateCORS = (req, res, next) => {
       return res.status(500).json({ message: err.message })
     }
   }
+
+export const validateId = (req, res, next) => {
+  const { id } = req.params
   
+  if (!Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ message: 'ID inválido' })
+  }
+  
+  next()
+}
