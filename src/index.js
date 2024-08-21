@@ -4,6 +4,7 @@ import userRoutes from './routes/user.routes.js'
 import authRoutes from './routes/auth.routes.js'
 import examRoutes from './routes/exam.routes.js'
 import levelRoutes from './routes/level.routes.js'
+import resultRoutes from './routes/result.routes.js'
 import { PORT } from './config/config.js'
 import { connectDB } from './config/db.js'
 
@@ -19,6 +20,7 @@ app.use('/api/users', userRoutes)
 app.use('/api/auth', authRoutes)
 app.use('/api/exams',examRoutes)
 app.use('/api/levels',levelRoutes)
+app.use('/api/results',resultRoutes)
 
 connectDB()
   .then(() => app.listen(PORT, () => console.log(`http://localhost:${PORT}`)))
