@@ -1,27 +1,28 @@
 import { Schema, model } from 'mongoose'
 
 const questionSchema = new Schema({
-    type: {
+  type: {
     type: String,
     enum: ['open', 'multiple-choice', 'video'],
     required: true
   },
-  correctAnswer: {
-    type: Schema.Types.Mixed,  
+  statement:{
+    type: String,
     required: true
   },
-  options: [{
-    option_id: {
-      type: String
-    },
-    text: {
-      type: String
-    }
-  }],
+  score:{
+    type: String,
+    required: true
+  },
+  correctAnswer: {
+    type: Schema.Types.Mixed,  
+    required: false
+  },
+  options: [String],
   exam_id: {
     type: Schema.Types.ObjectId,
     ref: 'Exam',
-    required: true
+    required: false
   }
 });
 

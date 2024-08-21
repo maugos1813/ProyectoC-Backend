@@ -2,6 +2,7 @@ import express from 'express'
 import { validateCORS } from './middlewares/middleware.js'
 import userRoutes from './routes/user.routes.js'
 import authRoutes from './routes/auth.routes.js'
+import examRoutes from './routes/exam.routes.js'
 import { PORT } from './config/config.js'
 import { connectDB } from './config/db.js'
 
@@ -15,6 +16,7 @@ app.use(morgan('dev'))
 app.use(validateCORS)
 app.use('/api/users', userRoutes)
 app.use('/api/auth', authRoutes)
+app.use('/api/exams',examRoutes)
 
 connectDB()
   .then(() => app.listen(PORT, () => console.log(`http://localhost:${PORT}`)))
