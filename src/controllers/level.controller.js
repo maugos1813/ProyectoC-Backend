@@ -36,6 +36,19 @@ class LevelController {
         }
     }
 
+    static async getAll(req,res){
+        try {
+            const levels = await Level.find()
+            if (levels.length === 0) {
+                return res.status(404).json({ message: 'No levels found' })
+              }
+          
+              res.status(200).json(levels);
+        } catch (error) {
+            res.status(400).json({ error: error.message })
+        }
+    }
+
 
 }
 export default LevelController
