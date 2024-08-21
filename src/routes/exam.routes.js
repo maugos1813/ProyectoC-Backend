@@ -5,6 +5,7 @@ import { validateToken } from '../middlewares/auth.middleware.js'
 const router = Router()
 
 router.get('/:id', ExamController.getExam)
+router.get('/', ExamController.getAll)
 router.post('/', ExamController.createWithQuestions)
 router.patch('/:id', ExamController.updateWithQuestions)
 

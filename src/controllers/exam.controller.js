@@ -80,5 +80,13 @@ class ExamController {
             res.status(400).json({ error: error.message })
         }
     }
+    static async getAll(req,res){
+        try {
+            const exams = await Exam.find()
+            res.json(exams)
+        } catch (error) {
+            res.status(500).json({ message: error.message })
+        }
+    }
 }
 export default ExamController
