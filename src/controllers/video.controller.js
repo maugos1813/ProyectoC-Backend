@@ -1,4 +1,4 @@
-import Video from '../models/videoModel.js'
+import Video from '../models/Video.js'
 import fs from 'fs'
 
 class VideoController{
