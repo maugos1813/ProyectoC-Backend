@@ -6,11 +6,13 @@ export const validateToken = async (req, res, next) => {
   try {
     const { authorization } = req.headers
     const decoded = jwt.verify(authorization, SECRET_KEY)
-    const usuario = await User.getById(decoded.usuarioId)
+    console.log(decoded.usuarioId)
+    const usuario = await User.findById(decoded.usuarioId)
+    console.log(usuario)
 
     if (usuario.length === 0) return res.status(404).json({ message: 'El token no pertenece a ningún usuario registrado' })
 
-    req.user = usuario[0]
+    req.user = usuario
 
     next()
   } catch (error) {

@@ -8,7 +8,7 @@ class LevelController {
             const { id } = req.params
             console.log(id)
             // Buscar exámenes por nivel
-            const exams = await Exam.find({ level_id: id }).populate('questions').exec()
+            const exams = await Exam.find({ level_id: id }).populate({path: 'questions'}).populate({path: 'user_id'}).populate({path: 'level_id',}).exec()
         
             if (exams.length === 0) {
               return res.status(404).json({ message: 'No exams found for this level' })
