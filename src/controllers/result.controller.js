@@ -11,7 +11,7 @@ class ResultController {
             res.status(400).json({error: error.message})
         }
     }
-    static async getAll(req,res){
+    static async getAll(req, res){
         try {
             const results = await Result.find().populate('answers.question_id').exec()
             if (results.length === 0) {

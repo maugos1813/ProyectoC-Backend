@@ -82,7 +82,7 @@ class ExamController {
     }
     static async getAll(req,res){
         try {
-            const exams = await Exam.find()
+            const exams = await Exam.find().populate('user_id').populate('level_id').populate('questions').exec()
             res.json(exams)
         } catch (error) {
             res.status(500).json({ message: error.message })
