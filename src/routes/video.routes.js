@@ -4,7 +4,9 @@ import { Router } from 'express'
 
 const router = Router()
 
-router.get('/', VideoController.getAllVideos)
-router.get('/', VideoController.getVideoById)
-router.post('/', VideoController.createVideo)
-router.delete('/', VideoController.deleteVideo)
+router.get('/', uploadVideo.single('video'),VideoController.getAllVideos)
+router.get('/:id', uploadVideo.single('video'),VideoController.getVideoById)
+router.post('/', uploadVideo.single('video'),VideoController.createVideo)
+router.delete('/', uploadVideo.single('video'),VideoController.deleteVideo)
+
+export default router
