@@ -1,6 +1,7 @@
 import multer from 'multer'
 import User from '../models/User.js'
 
+
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, './uploads')
@@ -29,4 +30,21 @@ const imageFilter = async function (req, file, cb) {
   }
 }
 
-export const uploadImage = multer({ storage, fileFilter: imageFilter })
+const videoFilter = function (req, file, cb) {
+  const { mimetype } = file;
+
+  if (
+    mimetype === 'video/mp4' ||
+    mimetype === 'video/avi' ||
+    mimetype === 'video/mkv' ||
+    mimetype === 'video/mov' ||
+    mimetype === 'video/wmv'
+  ) {
+    cb(null, true);
+  } else {
+    cb(new Error('Only video files are allowed.'));
+  }
+};
+
+export const uploadImage = multer({ storage, fileFilter: imageFilter})
+export const uploadVideo = multer({ storage, fileFilter: videoFilter })
