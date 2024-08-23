@@ -4,18 +4,18 @@ import fs from 'fs'
 class VideoController{
     static async createVideo (req, res) {
         try {
-          const { title, user, exam } = req.body
-          const videoPath = req.file ? req.file.path : null 
+          const { user, exam } = req.body
+          const videoPath = req.file ? req.file.filename : null 
       
           const video = new Video({
-            title,
-            user,
-            exam,
-            videoPath,
+            title: videoPath,
+            user_id: user,
+            exam_id: exam,
             createdAt: Date.now(),
           })
       
           await video.save()
+
           res.status(201).json(video)
         } catch (error) {
           res.status(400).json({ message: error.message })
@@ -24,7 +24,7 @@ class VideoController{
       
       static async getAllVideos (req, res)  {
         try {
-          const videos = await Video.find().populate('user').populate('exam')
+          const videos = await Video.find().populate('user_id').populate('exam_id').exec()
           res.json(videos)
         } catch (error) {
           res.status(500).json({ message: error.message })
@@ -34,7 +34,7 @@ class VideoController{
       static async getVideoById (req, res)  {
         try {
           const { id } = req.params
-          const video = await Video.findById(id).populate('user').populate('exam')
+          const video = await Video.findById(id).populate('user_id').populate('exam_id')
       
           if (!video) {
             return res.status(404).json({ message: 'Video not found' })

@@ -4,26 +4,25 @@ const videoSchema = new Schema(
   {
     title: {
       type: String,
-      required: true,
-      trim: true,
+      required: true
     },
-    user: {
+    user_id: {
       type: Schema.Types.ObjectId,
       ref: 'User',
-      required: false,
+      required: true
     },
-    exam: {
+    exam_id: {
       type: Schema.Types.ObjectId,
       ref: 'Exam',
-      required: false,
+      required: true
     },
     createdAt: {
       type: Date,
-      default: Date.now,
+      default: Date.now
     }
   }
 )
 
-const video = model('video', videoSchema)
+const video = model('Video', videoSchema)
 
 export default video
