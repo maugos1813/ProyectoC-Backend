@@ -1,21 +1,22 @@
 import Video from '../models/Video.js'
 import fs from 'fs'
+import path from 'path'
 
 class VideoController{
     static async createVideo (req, res) {
         try {
-          const { user, exam } = req.body
-          const videoPath = req.file ? req.file.filename : null 
+          const { title, user, exam } = req.body
+          const videoPath = req.file.path
+          console.log(videoPath)
       
-          const video = new Video({
-            title: videoPath,
-            user_id: user,
-            exam_id: exam,
-            createdAt: Date.now(),
+          const video = await Video.create({
+            title,
+            user,
+            exam,
+            videoPath,
+            createdAt: Date.now()
           })
-      
-          await video.save()
-
+          //await video.save()
           res.status(201).json(video)
         } catch (error) {
           res.status(400).json({ message: error.message })
