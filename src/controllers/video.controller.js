@@ -35,7 +35,7 @@ class VideoController {
   static async getVideoById(req, res) {
     try {
       const { id } = req.params
-      const video = await Video.findById(id).populate('user_id').populate('exam_id')
+      const video = await Video.findById(id).populate('user').populate('exam')
 
       if (!video) {
         return res.status(404).json({ message: 'Video not found' })
