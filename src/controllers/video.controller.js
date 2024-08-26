@@ -25,7 +25,7 @@ class VideoController {
 
   static async getAllVideos(req, res) {
     try {
-      const videos = await Video.find().populate('user exam').exec()
+      const videos = await Video.find().populate('user', 'name email').populate('exam', 'title date').lean().exec()
       res.json(videos)
     } catch (error) {
       res.status(500).json({ message: error.message })
