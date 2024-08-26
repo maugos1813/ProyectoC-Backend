@@ -9,4 +9,7 @@ router.get('/:id', VideoController.getVideoById)
 router.post('/', uploadVideo.single('video'), VideoController.createVideo)
 router.delete('/:id', VideoController.deleteVideo)
 
+
+router.get('/videoR/:filename',VideoController.videoRepro)
+
 export default router
