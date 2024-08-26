@@ -6,12 +6,12 @@ const videoSchema = new Schema(
       type: String,
       required: true
     },
-    user: {
+    user_id: {
       type: Schema.Types.ObjectId,
       ref: 'User',
       required: false
     },
-    exam: {
+    exam_id: {
       type: Schema.Types.ObjectId,
       ref: 'Exam',
       required: false
