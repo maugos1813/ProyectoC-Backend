@@ -7,7 +7,6 @@ class VideoController {
     try {
       const { title, user_id, exam_id } = req.body
       const videoPath = req.file.originalname
-//console.log(user);
       const video = await Video.create({
         title,
         user_id,
@@ -15,8 +14,6 @@ class VideoController {
         videoPath,
         createdAt: Date.now()
       })
-      console.log(video);
-      //await video.save()
       res.status(201).json(video)
     } catch (error) {
       res.status(400).json({ message: error.message })
