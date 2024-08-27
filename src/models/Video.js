@@ -9,12 +9,12 @@ const videoSchema = new Schema(
     user_id: {
       type: Schema.Types.ObjectId,
       ref: 'User',
-      required: false
+      required: true
     },
     exam_id: {
       type: Schema.Types.ObjectId,
       ref: 'Exam',
-      required: false
+      required: true
     },
     videoPath: {
       type: String,

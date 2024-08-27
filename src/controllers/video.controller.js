@@ -5,17 +5,17 @@ import path from 'path'
 class VideoController {
   static async createVideo(req, res) {
     try {
-      const { title, user, exam } = req.body
-      const videoPath = req.file.path
-      console.log(videoPath)
-
+      const { title, user_id, exam_id } = req.body
+      const videoPath = req.file.originalname
+//console.log(user);
       const video = await Video.create({
         title,
-        user,
-        exam,
+        user_id,
+        exam_id,
         videoPath,
         createdAt: Date.now()
       })
+      console.log(video);
       //await video.save()
       res.status(201).json(video)
     } catch (error) {
