@@ -38,7 +38,39 @@ class LevelController {
 
     static async getAll(req,res){
         try {
-            const levels = await Level.find()
+            /* const levels = await Level.find() */
+
+            const levels = await Level.aggregate([
+                {
+                    $lookup: {
+                        from: 'users', 
+                        localField: '_id', 
+                        foreignField: 'level_id', 
+                        as: 'teachers'
+                    }
+                },
+                {
+                    $unwind: { 
+                        path: "$teachers", 
+                        preserveNullAndEmptyArrays: true
+                    }
+                },
+                {
+                    $match: {
+                        'teachers.type': 'teacher' 
+                    }
+                },
+                {
+                    $group: {
+                        _id: "$_id", 
+                        name: { $first: "$name" },
+                        sub_name: { $first: "$sub_name" },
+                        teachers: { $push: "$teachers" } 
+                    }
+                }
+            ])
+
+
             if (levels.length === 0) {
                 return res.status(404).json({ message: 'No levels found' })
               }

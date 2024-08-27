@@ -69,24 +69,38 @@ class ExamController {
     }
     static async getExam(req, res) {
         try {
-            const {id} = req.params
-            const exam = await Exam.findById(id).populate('questions').exec()
+            const { id } = req.params;
+            const exam = await Exam.findById(id)
+                .populate({
+                    path: 'questions',
+                    select: '-correctAnswer'
+                })
+                .exec();
 
-            if(!exam) return res.status(404).json({ message: 'Exam not found' })
+            if (!exam) return res.status(404).json({ message: 'Exam not found' });
 
-            
-            res.status(200).json(exam)
+            res.status(200).json(exam);
         } catch (error) {
-            res.status(400).json({ error: error.message })
+            res.status(400).json({ error: error.message });
         }
     }
-    static async getAll(req,res){
+
+    static async getAll(req, res) {
         try {
-            const exams = await Exam.find().populate('user_id').populate('level_id').populate('questions').exec()
-            res.json(exams)
+            const exams = await Exam.find()
+                .populate('user_id')
+                .populate('level_id')
+                .populate({
+                    path: 'questions',
+                    select: '-correctAnswer'
+                })
+                .exec();
+                
+            res.json(exams);
         } catch (error) {
-            res.status(500).json({ message: error.message })
+            res.status(500).json({ message: error.message });
         }
     }
+
 }
 export default ExamController
