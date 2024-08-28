@@ -31,12 +31,7 @@ class UserController {
     if (!firstName || !lastName || !email || !password || !type) {
       return res.status(400).json({ message: 'Faltan datos' })
     }
-
-    
     const passwordHashed = await bcrypt.hash(password, 10)
-
-
-
     try {
       const nuevoUsuario = await User.create({
         firstName,
@@ -54,6 +49,43 @@ class UserController {
       res.status(500).json({ message: error.message })
     }
   }
+
+
+///varios usuarios:
+static async storeMultiple(req, res) {
+  const users = req.body;
+
+  if (!Array.isArray(users) || users.length === 0) {
+    return res.status(400).json({ message: 'Se debe enviar un array de usuarios' });
+  }
+
+  for (const user of users) {
+    const { firstName, lastName, email, password, type } = user;
+    if (!firstName || !lastName || !email || !password || !type) {
+      return res.status(400).json({ message: 'Faltan datos en uno o más usuarios' });
+    }
+  }
+
+  try {
+    const usuariosConContraseñasCifradas = await Promise.all(users.map(async (user) => {
+      const passwordHashed = await bcrypt.hash(user.password, 10);
+      return {
+        ...user,
+        password: passwordHashed,
+        creationDate: user.creationDate || Date.now(),
+        lastConnection: user.lastConnection || null,
+      };
+    }));
+
+    const nuevosUsuarios = await User.insertMany(usuariosConContraseñasCifradas);
+
+    res.status(201).json({ message: 'Usuarios creados', data: nuevosUsuarios });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}
+
+
 
   static async updatePut(req, res) {
     const { id } = req.params

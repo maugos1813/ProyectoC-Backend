@@ -9,4 +9,5 @@ router.get('/', ExamController.getAll)
 router.post('/', ExamController.createWithQuestions)
 router.patch('/:id', ExamController.updateWithQuestions)
 
+
 export default router

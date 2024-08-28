@@ -1,39 +1,44 @@
 import Exam from '../models/Exam.js'
 import Question from '../models/Question.js'
 
+
+
 class ExamController {
+    
     static async createWithQuestions(req, res) {
+        console.log("weeee")
         try {
-            const { title, description, user_id, level_id, questions } = req.body
-            const createdQuestions = await Promise.all(
-                questions.map(async questionData => {
-                    const question = new Question({
-                        ...questionData,
-                        exam_id: null
-                    })
-                    await question.save()
-                    return question
-                })
-            )
+            const { title, user_id, level_id, questions } = req.body;
+
             const exam = new Exam({
                 name: title,
                 user_id,
                 level_id,
                 created_Date: new Date(),
-                questions: createdQuestions.map(q => q._id)
-            })
-
-            await exam.save()
-
-            await Promise.all(
-                createdQuestions.map(async question => {
-                    question.exam_id = exam._id
-                    await question.save()
+                questions: []
+            });
+    
+            await exam.save();
+           
+            const createdQuestions = await Promise.all(
+                questions.map(async (questionData, index) => {
+                   
+                    const question = new Question({
+                        ...questionData,
+                        exam_id: exam._id,
+                        question_number: index + 1 
+                    });
+                    await question.save();
+                    return question;
                 })
-            )
-            res.status(201).json(exam)
+            );
+    
+            exam.questions = createdQuestions.map(q => q._id);
+            await exam.save();
+    
+            res.status(201).json(exam);
         } catch (error) {
-            res.status(400).json({ error: error.message })
+            res.status(400).json({ error: error.message });
         }
     }
     static async updateWithQuestions(req, res) {

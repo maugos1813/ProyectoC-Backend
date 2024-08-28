@@ -23,8 +23,14 @@ const questionSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Exam',
     required: false
+  },
+  question_number: {
+    type: Number,
+    required: false
+
   }
 });
+
 
 const Question = model('Question', questionSchema)
 

@@ -7,7 +7,6 @@ class LevelController {
         try {
             const { id } = req.params
             console.log(id)
-            // Buscar exámenes por nivel
             const exams = await Exam.find({ level_id: id }).populate({path: 'questions'}).populate({path: 'user_id'}).populate({path: 'level_id',}).exec()
         
             if (exams.length === 0) {
@@ -22,8 +21,6 @@ class LevelController {
     static async getUsersByLevel(req,res){
         try {
             const { id } = req.params
-           
-            // Buscar exámenes por nivel
             const exams = await User.find({ level_id: id })
         
             if (exams.length === 0) {
@@ -38,7 +35,6 @@ class LevelController {
 
     static async getAll(req,res){
         try {
-            /* const levels = await Level.find() */
 
             const levels = await Level.aggregate([
                 {
@@ -66,6 +62,16 @@ class LevelController {
                         name: { $first: "$name" },
                         sub_name: { $first: "$sub_name" },
                         teachers: { $push: "$teachers" } 
+                    }
+                },
+                {
+                    $project: {
+                        'teachers.password': 0, 
+                        'teachers.type': 0, 
+                        'teachers.creationDate': 0, 
+                        'teachers.lastConnection': 0,
+                        'teachers.level_id': 0, 
+                        'teachers.__v':0
                     }
                 }
             ])

@@ -9,5 +9,6 @@ const router = Router()
 router.get('/', UserController.index)
 router.get('/:id', UserController.find)
 router.post('/', uploadImage.single('image'), handleError, UserController.store)
+router.post('/multiple/',UserController.storeMultiple)
 
 export default router

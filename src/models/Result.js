@@ -13,27 +13,34 @@ const resultSchema = new Schema({
     },
     score: {
         type: Number,
-        required: true
+        default: 0,
+        required: false
     },
     date: { 
         type: Date,
         default: Date.now
     },
-    finished: {
-        type: Boolean,
-        default: false,
-        required: false
+    status: { 
+        type: String, 
+        enum: ["blank", "completed", "reviewed"], 
+        default: "blank",
+        required: false 
     },
     answers: [
         {
-            question_id:{
+            question_id: {
                 type: Schema.Types.ObjectId,
                 ref: 'Question',
                 required: true
             },
+            question_type: {
+                type: String,
+                enum: ["open", "multiple-choice", "video"],
+                required: true
+            },
             answer: {
                 type: Schema.Types.Mixed,
-                required:true
+                required: function() { return this.question_type !== 'video'; }
             }
         }
     ],
