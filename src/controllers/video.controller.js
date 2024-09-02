@@ -68,11 +68,11 @@ class VideoController {
   static async videoRepro(req, res) {
     try {
       const { filename } = req.params
-      console.log(filename);
+      console.log(filename)
       const ruta = path.resolve(`./uploads/${filename}`)
 
       //  await fs.access(ruta)
-      res.setHeader('Content-Type', 'video/mp4');
+      res.setHeader('Content-Type', 'video/mp4')
       res.sendFile(ruta)
     } catch (error) {
       if (error.errno === -4058) { return res.status(404).json({ message: 'La foto no se pudo encontrar' }) }

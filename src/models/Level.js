@@ -17,4 +17,4 @@ const levelSchema = new Schema({
 
 const Level = model('Level', levelSchema)
 
-export default Level;
+export default Level

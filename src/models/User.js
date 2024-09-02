@@ -1,4 +1,4 @@
-import { Schema,Types, model } from 'mongoose';
+import { Schema,Types, model } from 'mongoose'
 
 const userSchema = new Schema({
   firstName: {
@@ -40,8 +40,8 @@ const userSchema = new Schema({
     ref: 'Level',
     required: true
   }
-});
+})
 
-const User = model('User', userSchema);
+const User = model('User', userSchema)
 
-export default User;
+export default User

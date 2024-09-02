@@ -34,7 +34,7 @@ const questionSchema = new Schema({
     required: false
 
   }
-});
+})
 
 
 const Question = model('Question', questionSchema)

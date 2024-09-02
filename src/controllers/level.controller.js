@@ -13,7 +13,7 @@ class LevelController {
               return res.status(404).json({ message: 'No exams found for this level' })
             }
         
-            res.status(200).json(exams);
+            res.status(200).json(exams)
         } catch (error) {
             res.status(400).json({ error: error.message })
         }
@@ -27,7 +27,7 @@ class LevelController {
               return res.status(404).json({ message: 'No users found for this level' })
             }
         
-            res.status(200).json(exams);
+            res.status(200).json(exams)
         } catch (error) {
             res.status(400).json({ error: error.message })
         }
@@ -81,7 +81,7 @@ class LevelController {
                 return res.status(404).json({ message: 'No levels found' })
               }
           
-              res.status(200).json(levels);
+              res.status(200).json(levels)
         } catch (error) {
             res.status(400).json({ error: error.message })
         }

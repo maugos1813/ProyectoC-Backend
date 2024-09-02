@@ -40,7 +40,7 @@ const resultSchema = new Schema({
             },
             answer: {
                 type: Schema.Types.Mixed,
-                required: function() { return this.question_type !== 'video'; }
+                required: function() { return this.question_type !== 'video' }
             },
             isCorrect: {
                 type: Boolean,

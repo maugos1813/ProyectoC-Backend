@@ -10,9 +10,9 @@ function calcpuntuaction(questions){
     
     let totalPercentage = 0
     questions.forEach((q, index) => {
-        let percentage = (q.score * 100) / sum;
+        let percentage = (q.score * 100) / sum
         if (index === questions.length - 1) {
-            percentage = 100 - totalPercentage;
+            percentage = 100 - totalPercentage
         } else {
             percentage = parseFloat(percentage.toFixed())
             totalPercentage += percentage
@@ -26,7 +26,7 @@ class ExamController {
     
     static async createWithQuestions(req, res) {
         try {
-            const { title, user_id, level_id, questions } = req.body;
+            const { title, user_id, level_id, questions } = req.body
 
             const real_score = calcpuntuaction(questions)
             const exam = new Exam({
@@ -35,9 +35,9 @@ class ExamController {
                 level_id,
                 created_Date: new Date(),
                 questions: []
-            });
+            })
     
-            await exam.save();
+            await exam.save()
            
             const createdQuestions = await Promise.all(
                 questions.map(async (questionData, index) => {
@@ -47,11 +47,11 @@ class ExamController {
                         exam_id: exam._id,
                         real_score:real_score[index],
                         question_number: index + 1 
-                    });
+                    })
                     await question.save()
                     return question
                 })
-            );
+            )
     
             exam.questions = createdQuestions.map(q => q._id)
             await exam.save()
@@ -94,19 +94,19 @@ class ExamController {
     }
     static async getExam(req, res) {
         try {
-            const { id } = req.params;
+            const { id } = req.params
             const exam = await Exam.findById(id)
                 .populate({
                     path: 'questions',
                     select: '-correctAnswer'
                 })
-                .exec();
+                .exec()
 
-            if (!exam) return res.status(404).json({ message: 'Exam not found' });
+            if (!exam) return res.status(404).json({ message: 'Exam not found' })
 
-            res.status(200).json(exam);
+            res.status(200).json(exam)
         } catch (error) {
-            res.status(400).json({ error: error.message });
+            res.status(400).json({ error: error.message })
         }
     }
 
@@ -119,11 +119,11 @@ class ExamController {
                     path: 'questions',
                     select: '-correctAnswer'
                 })
-                .exec();
+                .exec()
                 
-            res.json(exams);
+            res.json(exams)
         } catch (error) {
-            res.status(500).json({ message: error.message });
+            res.status(500).json({ message: error.message })
         }
     }
 
