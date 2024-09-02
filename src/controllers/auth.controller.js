@@ -4,7 +4,9 @@ import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 
 export const login = async (req, res) => {
+  console.log(req.body)
   try {
+   
     const { email, password } = req.body
     const usuario = await User.findOne({email})
 

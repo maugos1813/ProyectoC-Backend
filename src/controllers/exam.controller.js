@@ -1,15 +1,34 @@
 import Exam from '../models/Exam.js'
 import Question from '../models/Question.js'
 
-
+function calcpuntuaction(questions){
+    let sum=0
+    let arr=[]
+    questions.forEach(q => {
+        sum+= q.score
+    })
+    
+    let totalPercentage = 0
+    questions.forEach((q, index) => {
+        let percentage = (q.score * 100) / sum;
+        if (index === questions.length - 1) {
+            percentage = 100 - totalPercentage;
+        } else {
+            percentage = parseFloat(percentage.toFixed())
+            totalPercentage += percentage
+        }
+        arr.push(percentage)
+    })
+    return arr
+}
 
 class ExamController {
     
     static async createWithQuestions(req, res) {
-        console.log("weeee")
         try {
             const { title, user_id, level_id, questions } = req.body;
 
+            const real_score = calcpuntuaction(questions)
             const exam = new Exam({
                 name: title,
                 user_id,
@@ -26,19 +45,20 @@ class ExamController {
                     const question = new Question({
                         ...questionData,
                         exam_id: exam._id,
+                        real_score:real_score[index],
                         question_number: index + 1 
                     });
-                    await question.save();
-                    return question;
+                    await question.save()
+                    return question
                 })
             );
     
-            exam.questions = createdQuestions.map(q => q._id);
-            await exam.save();
+            exam.questions = createdQuestions.map(q => q._id)
+            await exam.save()
     
-            res.status(201).json(exam);
+            res.status(201).json(exam)
         } catch (error) {
-            res.status(400).json({ error: error.message });
+            res.status(400).json({ error: error.message })
         }
     }
     static async updateWithQuestions(req, res) {

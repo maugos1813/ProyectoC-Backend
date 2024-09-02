@@ -14,6 +14,11 @@ const questionSchema = new Schema({
     type: String,
     required: true
   },
+  real_score:{
+    type: Number,
+    required: false,
+    default: 0
+  },
   correctAnswer: {
     type: Schema.Types.Mixed,  
     required: false
